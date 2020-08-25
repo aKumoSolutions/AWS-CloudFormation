@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+# BucketName Parameter
+  MyBucketName:
+    Type: String
+
+# Team Tag Value Parameter  
+  TeamTagValue:
+    Type: String
+
+# Env Tag Value Parameter
+  EnvTagValue:
+    Type: String
+
+Resources:
+  MyTaggedBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName:
+        Ref: MyBucketName  # Reference to BucketName Parameter
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: "Team"
+          Value: 
+            Ref: TeamTagValue # Reference to TeamTagValue
+        - Key: "Env"
+          Value: 
+            Ref: EnvTagValue # Reference to EnvTagValue

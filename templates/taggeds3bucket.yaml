@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  MyTaggedBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "cloudformation-unique-test-bucket2"
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: "Team"
+          Value: "Dev"
+        - Key: "Env"
+          Value: "Test"  

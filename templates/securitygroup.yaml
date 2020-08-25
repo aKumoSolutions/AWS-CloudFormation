@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+# Define Parameters
+Parameters:
+  # Security Group Name
+  SGName:
+    Type: String
+  # VPCId for which to create the security group
+  MyVpc:
+    Type: String
+  
+# Resource Definition 
+Resources:
+  TestSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Test SG"
+      GroupName: 
+        Ref: SGName
+      VpcId:
+        Ref: MyVpc
+      SecurityGroupEgress:
+      - CidrIp: 0.0.0.0/0
+        IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+      SecurityGroupIngress:
+      - CidrIp: 0.0.0.0/0
+        IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+      Tags:
+        - Key: "Name"
+          Value: "Test"
+        - Key: "Team"
+          Value: "Dev"
+        - Key: "Env"
+          Value: "Test"  
