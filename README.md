@@ -19,13 +19,24 @@ AWS CloudFormation is a service that gives developers and businesses an easy way
 
 [parameterizeds3bucket.yaml](templates/parameterizeds3bucket.yaml) - simple CloudFormation Template that creats S3Bucket based on the following parameter inputs:
 
-    - MyBucketName   
+* MyBucketName   
 
-    - TeamTagValue
+* TeamTagValue
 
-    - EnvTagValue 
+* EnvTagValue 
 
 [securitygroup.yaml](templates/securitygroup.yaml) - simple CloudFormation Template that creates SecurityGroup with Tags, and requires the following parameteres : 
 
-    - SGName  - name for the resource
-    - MyVpc   - VpcId for which the SG will be created. 
+* SGName  - name for the resource
+* MyVpc   - VpcId for which the SG will be created
+
+[ec2instance.yaml](templates/ec2instance.yaml) - CloudFormation Template that creates EC2-Instance with Tags, and requires the following parameteres : 
+
+* AMIid - Amazon Image Id
+* EC2Name - name of the EC2 resource
+* EC2Type - EC2-Instance Type
+* EnvTag - Value for Env Tag key
+* KeyName - SSH Key name for SSH Access
+* RootVolumeSize - Size of the root volume
+* SubnetID - SubnetId to which the EC2 should be launched
+* TeamTag - Value for Team Tag key

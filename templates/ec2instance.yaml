@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: 2010-09-09
+# Define Parameters
+Parameters:
+  # AMI ID
+  AMIid:
+    Type: String
+  # EC2 Type
+  EC2Type:
+    Type: String
+  # Subnet ID
+  SubnetID:
+    Type: String
+  # RootVolumeSize
+  RootVolumeSize:
+    Type: String
+  # Name Tag
+  EC2Name:
+    Type: String
+  # Name Tag
+  TeamTag:
+    Type: String
+  # Name Tag
+  EnvTag:
+    Type: String
+  # Key Name
+  KeyName:
+    Type: String
+  
+# Resource Definition 
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId:
+        Ref: AMIid # Reference to AMIid parameter
+      InstanceType:
+        Ref: EC2Type # Reference to EC2Type parameter
+      SubnetId:
+        Ref: SubnetID # Reference to SubnetId parameter
+      BlockDeviceMappings:
+      - DeviceName: /dev/xvda
+        Ebs:
+          VolumeType: gp2
+          VolumeSize: 
+            Ref: RootVolumeSize # Reference to RootVolumeSize parameter
+          Encrypted: "true"
+      Tags:
+      - Key: "Name"
+        Value: 
+          Ref: EC2Name # Reference to EC2Name parameter
+      - Key: "Team"
+        Value: 
+          Ref: TeamTag # Reference to TeamTag parameter
+      - Key: "Env"
+        Value: 
+          Ref: EnvTag # Reference to EnvTag parameter
+      KeyName:
+        Ref: KeyName # Reference to KeyName parameter
