@@ -40,3 +40,7 @@ AWS CloudFormation is a service that gives developers and businesses an easy way
 * RootVolumeSize - Size of the root volume
 * SubnetID - SubnetId to which the EC2 should be launched
 * TeamTag - Value for Team Tag key
+
+[ec2_sg.yaml](templates/ec2_sg.yaml) - CloudFormation Template that creates EC2-Instance and Security Group with Tags, and requires the following parameteres. 
+
+Note: modify the file with your inputs. 
