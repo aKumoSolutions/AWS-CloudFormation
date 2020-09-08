@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: 2010-09-09
+# Parameters
+Parameters:
+  # StackName Parameter
+  TestOutputStackName:
+    Type: String
+    Default: "Test-Output"
+# Resources
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "cloudformation-unique-test-bucket2"
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: "Team"
+          Value: 
+            Fn::ImportValue:
+              !Sub "${TestOutputStackName}-BucketArn"
+# Outputs
+Outputs:
+  MyBucketName:
+    Value: !Ref "MyBucket"
+    Description: "Name of the S3 Bucket"

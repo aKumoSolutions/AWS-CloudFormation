@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: 2010-09-09
+# Resources
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "cloudformation-unique-test-bucket1"
+      VersioningConfiguration:
+        Status: Enabled
+# Outputs 
+Outputs:
+  # Stack Region
+  MyStacksRegion:
+    Value: !Ref "AWS::Region"
+    Description: "AWS Region where stack is created/updated"
+  # Bucket Name
+  MyBucketName:
+    Value: !Ref "MyBucket"
+    Description: "Name of the S3 Bucket"
+  # Bucket Arn
+  MyBucketArn:
+    Value: !GetAtt MyBucket.Arn
+    Description: "Bucket Arn"
+    # Export the value
+    Export: 
+      Name: !Sub "${AWS::StackName}-BucketArn"
