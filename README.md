@@ -1,7 +1,11 @@
 # AWS CloudFormation
 
 <p align="center">
-  <img width="300" height="150" src="img/CloudFormation.png">
+  <img width="400" height="200" src="img/aws.gif">
+</p>
+
+<p align="center">
+  <img width="400" height="200" src="img/CloudFormation.png">
 </p>
 
 ## What is AWS CloudFormation?
@@ -12,12 +16,12 @@ AWS CloudFormation is a service that gives developers and businesses an easy way
 
 
 ## Templates
+| a | b |
+| ------------ | ------------ |
 
-[s3bucket.yaml](templates/s3bucket.yaml) - simple CloudFormation Template that creates S3Bucket. 
-
-[taggeds3bucket.yaml](templates/taggeds3bucket.yaml) - simple CloudFormation Template that creates S3Bucket with Tags. 
-
-[parameterizeds3bucket.yaml](templates/parameterizeds3bucket.yaml) - simple CloudFormation Template that creats S3Bucket based on the following parameter inputs:
+| [s3bucket.yaml](templates/s3bucket.yaml) | simple CloudFormation Template that creates S3Bucket. |
+| [taggeds3bucket.yaml](templates/taggeds3bucket.yaml) | simple CloudFormation Template that creates S3Bucket with Tags. 
+| [parameterizeds3bucket.yaml](templates/parameterizeds3bucket.yaml) | simple CloudFormation Template that creats S3Bucket based on the following parameter inputs: |
 
 * MyBucketName   
 
