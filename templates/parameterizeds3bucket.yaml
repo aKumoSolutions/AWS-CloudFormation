@@ -1,29 +1,57 @@
 AWSTemplateFormatVersion: 2010-09-09
+
+### Parameters Section ###
 Parameters:
-# BucketName Parameter
-  MyBucketName:
+  #BucketName Parameter
+  SampleBucketName:
     Type: String
 
-# Team Tag Value Parameter  
+  #Team Tag Value Parameter  
   TeamTagValue:
     Type: String
 
-# Env Tag Value Parameter
+  #Env Tag Value Parameter
   EnvTagValue:
     Type: String
 
+  #Versioning
+  VersioningConfig:
+    Type: String
+    Default: "Enabled"
+    Description: "Versioning Configuration"
+    AllowedValues:
+      - Suspended
+      - Enabled
+
+### Resources Section ###
 Resources:
-  MyTaggedBucket:
+  SampleBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName:
-        Ref: MyBucketName  # Reference to BucketName Parameter
+        Ref: SampleBucketName  #Reference to BucketName Parameter
       VersioningConfiguration:
-        Status: Enabled
+        Status: 
+          Ref: VersioningConfig #Reference to VersioningConfig Parameter
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
       Tags:
         - Key: "Team"
           Value: 
-            Ref: TeamTagValue # Reference to TeamTagValue
+            Ref: TeamTagValue #Reference to TeamTagValue
         - Key: "Env"
           Value: 
-            Ref: EnvTagValue # Reference to EnvTagValue
+            Ref: EnvTagValue #Reference to EnvTagValue
+
+### Outputs Section ###
+Outputs:
+  #Bucket Name
+  SampleBucket:
+    Value: !Ref SampleBucket
+    Description: "Bucket Name"
+  #Bucket Arn
+  MyBucketArn:
+    Value: !GetAtt SampleBucket.Arn
+    Description: "Bucket Arn"
