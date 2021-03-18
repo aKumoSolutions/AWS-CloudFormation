@@ -5,20 +5,23 @@ Parameters:
   #BucketName Parameter
   SampleBucketName:
     Type: String
-
+    Default: ""
+    Description: "Bucket Name"
   #Team Tag Value Parameter  
   TeamTagValue:
     Type: String
-
+    Default: "Enabled"
+    Description: "Enter Team Name"
   #Env Tag Value Parameter
   EnvTagValue:
     Type: String
-
+    Default: ""
+    Description: "Enter Environment Name"
   #Versioning
   VersioningConfig:
     Type: String
     Default: "Enabled"
-    Description: "Versioning Configuration"
+    Description: "Select Versioning Configuration"
     AllowedValues:
       - Suspended
       - Enabled
