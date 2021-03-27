@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Create Ec2 Instance"
+
+### Parameters ###
+Parameters:
+  ImageId:
+    Type: String
+    Default: ""
+    Description: "AMI ID for Ec2"
+  
+  InstanceType:
+    Type: String
+    Default: "t2.micro"
+    Description: "Instance Type"
+    AllowedValues:
+      - t2.micro
+      - t2.nano
+      - t2.small
+  
+  SubnetId:
+    Type: String
+    Default: ""
+    Description: "Subnet ID for Ec2"
+
+  SSHKeyName:
+    Type: String
+    Default: ""
+    Description: "SSH Key Name"
+
+  SecurityGroupId:
+    Type: String
+    Default: ""
+    Description: "Security Group Id"
+
+### Resources ###
+Resources:
+  TestInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref ImageId
+      InstanceType: !Ref InstanceType
+      SubnetId: !Ref SubnetId
+      UserData:
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash 
+            echo "hello" >> /tmp/myfile
+      BlockDeviceMappings: 
+      - DeviceName: "/dev/xvda"
+        Ebs: 
+          VolumeType: "gp2"
+          DeleteOnTermination: "true"
+          VolumeSize: "20"
+      Tags:
+        - Key: "Team"
+          Value: "Backend"
+        - Key: "Name"
+          Value: "Test-Ec2"
+      SecurityGroupIds:
+        - !Ref SecurityGroupId
+      KeyName: !Ref SSHKeyName
+
+### Outputs ###
+Outputs:
+  TestInstance:
+    Value: !Ref TestInstance
+    Description: "Instance Id"
+  TestInstancePublicIP:
+    Value: !GetAtt TestInstance.PublicIp
+    Description: "Instance Public Ip"

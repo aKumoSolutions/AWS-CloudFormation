@@ -18,11 +18,10 @@ AWS CloudFormation is a service that gives developers and businesses an easy way
 ## [Templates](templates)
 | Template | Description | Parameters |
 | ------------ | ------------ | ----- |
-| [s3bucket.yaml](templates/s3bucket.yaml) | Simple CloudFormation Template that creates S3Bucket. |
-| [taggeds3bucket.yaml](templates/taggeds3bucket.yaml)  | CloudFormation Template that creates S3Bucket with Tags. |
-| [parameterizeds3bucket.yaml](templates/parameterizeds3bucket.yaml) | CloudFormation Template that creats S3Bucket based on parameters. | MyBucketName  TeamTagValue EnvTagValue  |
-| [securitygroup.yaml](templates/securitygroup.yaml) |  CloudFormation Template that creates SecurityGroup with Tags based on parameters. | SGName MyVpc |
-| [ec2instance.yaml](templates/ec2instance.yaml) | CloudFormation Template that creates EC2-Instance with Tags based on parameteres. | AMIid IEC2Name EC2Type EnvTag KeyName AccesRootVolumeSize SubnetID TeamTag |
-| [ec2_sg.yaml](templates/ec2_sg.yaml) | CloudFormation Template that creates EC2-Instance and Security Group with Tags |
-
-#### Note: modify the file with your inputs. 
+| [s3bucket-example1.yaml](templates/s3bucket-example1.yaml) | CF Template that creates S3Bucket. |
+| [s3bucket-example2.yaml](templates/s3bucket-example2.yaml)  | CF Template that creates S3Bucket with Tags. |
+| [s3bucket-example3.yaml](templates/s3bucket-example3.yaml) | CF Template that creates S3Bucket based on parameters. | SampleBucketName  TeamTagValue EnvTagValue VersioningConfig |
+| [securitygroup.yaml](templates/securitygroup.yaml) |  CF Template that creates SecurityGroup with Tags based on parameters. | SGName MyVpc |
+| [ec2instance-example1.yaml](templates/ec2instance-example1.yaml) | CF Template that creates EC2-Instance with Tags based on parameteres. | AMIid EC2Type SubnetID RootVolumeSize EC2Name TeamTag EnvTag KeyName |
+| [ec2instance-example2.yaml](templates/ec2instance-example2.yaml) | CF Template that creates EC2-Instance based on parameteres. | ImageId InstanceType SubnetId SSHKeyName SecurityGroupId |
+| [ec2instance-example3.yaml](templates/ec2instance-example3.yaml) | CF Template that creates EC2-Instance and SecurityGroup. | No parameters - hardcoded values |
