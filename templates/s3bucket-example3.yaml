@@ -2,21 +2,25 @@ AWSTemplateFormatVersion: 2010-09-09
 
 ### Parameters Section ###
 Parameters:
-  #BucketName Parameter
+  
+  #BucketName 
   SampleBucketName:
     Type: String
     Default: ""
     Description: "Bucket Name"
-  #Team Tag Value Parameter  
+  
+  #Team Tag Value 
   TeamTagValue:
     Type: String
     Default: "Enabled"
     Description: "Enter Team Name"
-  #Env Tag Value Parameter
+  
+  #Env Tag Value 
   EnvTagValue:
     Type: String
     Default: ""
     Description: "Enter Environment Name"
+  
   #Versioning
   VersioningConfig:
     Type: String
