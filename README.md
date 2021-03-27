@@ -25,5 +25,4 @@ AWS CloudFormation is a service that gives developers and businesses an easy way
 | [ec2instance-example2.yaml](templates/ec2instance-example2.yaml) | CF Template that creates EC2-Instance based on parameteres. | ImageId InstanceType SubnetId SSHKeyName SecurityGroupId |
 | [ec2instance-example3.yaml](templates/ec2instance-example3.yaml) | CF Template that creates EC2-Instance and SecurityGroup. | No parameters - hardcoded values |
 | [securitygroup-example1.yaml](templates/securitygroup-example1.yaml) |  CF Template that creates SecurityGroup with Tags based on parameters. | SGName MyVpc |
-| [securitygroup.yaml](templates/securitygroup.yaml) |  CF Template that creates SecurityGroup with Tags based on parameters. | SGName MyVpc |
 | [import.yaml](templates/import.yaml) |  CF Template that creates SecurityGroup with Tags based on parameters. | SGName MyVpc |
