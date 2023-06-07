@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Creating EC2 Instance 
+
+### Parameters ###
+Parameters: 
+  ImageId: 
+    Description: "EC2 Image ID"
+    Type: String
+  SSHKeyName: 
+    Description: "SSH Key Name"
+    Type: String
+  InstanceType: 
+    Description: Select an Instance Type
+    Type: String 
+    Default: t2.micro 
+    AllowedValues: 
+      - t2.micro
+      - t2.medium
+  SubnetId:
+    Description: "SSH Key Name"
+    Type: String
+  VPCId:
+    Description: "SSH Key Name"
+    Type: String
+  
+### Resources ###
+Resources:
+  # Security Group
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow only my IP for port 22, all for port 80
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: '76.245.194.245/32'
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: '0.0.0.0/0'
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: '0.0.0.0/0'
+
+  # EC2 Instance        
+  Instance:
+    Type: AWS::EC2::Instance 
+    Properties: 
+      ImageId: !Ref ImageId
+      KeyName: !Ref SSHKeyName
+      InstanceType: !Ref InstanceType
+      SubnetId: !Ref SubnetId
+      SecurityGroupIds: 
+        - !Ref InstanceSecurityGroup
+      UserData: 
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash
+            dnf install wget php-mysqlnd httpd php-fpm php-mysqli php-json php php-devel -y
+            systemctl start httpd
+            systemctl enable httpd
+            cd /var/www/html
+            wget https://wordpress.org/latest.tar.gz
+            tar -xzf latest.tar.gz
+            sudo mv wordpress/* .
+            
+  

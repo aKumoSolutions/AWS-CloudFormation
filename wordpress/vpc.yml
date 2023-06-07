@@ -1,0 +1,160 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Example Application and Database VPC" 
+
+Resources:
+  # VPC 
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: '10.0.0.0/23'
+      EnableDnsHostnames: 'true'
+      EnableDnsSupport: 'true'
+      Tags:
+        - Key: Env
+          Value: "Test"
+
+  # InternetGateway        
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Env
+          Value: "Test"
+  
+  # InternetGatewayAttachment
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: 
+        Ref: InternetGateway
+      VpcId: 
+        Ref: VPC
+
+  # Public Subnet 1 (az-1a)
+  PubSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: 
+        Ref: VPC
+      CidrBlock: 10.0.0.0/25
+      AvailabilityZone: "us-east-1a"
+      Tags:
+        - Key: Name
+          Value: "public-subnet1"
+        - Key: Env
+          Value: "Test"
+
+  # Public Subnet 2 (az-1b)
+  PubSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: 
+        Ref: VPC
+      CidrBlock: 10.0.0.128/25
+      AvailabilityZone: "us-east-1b"
+      Tags:
+        - Key: Name
+          Value: "public-subnet2"
+        - Key: Env
+          Value: "Test"
+  
+  # Private Subnet 1 (az-1c)
+  PrivSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: 
+        Ref: VPC
+      CidrBlock: 10.0.1.0/25
+      AvailabilityZone: "us-east-1c"
+      Tags:
+        - Key: Name
+          Value: "private-subnet1"
+        - Key: Env
+          Value: "Test"
+  
+  # Private Subnet 2 (az-1d)
+  PrivSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: 
+        Ref: VPC
+      CidrBlock: 10.0.1.128/25
+      AvailabilityZone: "us-east-1d"
+      Tags:
+        - Key: Name
+          Value: "private-subnet2"
+        - Key: Env
+          Value: "Test"
+
+  # Public Route Table 
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: 
+        Ref: VPC
+
+  # Public Route
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: 
+        Ref: PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: 
+        Ref: InternetGateway
+
+  # Public Subnet1 Association
+  PubSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: 
+        Ref: PublicRouteTable
+      SubnetId:
+        Ref: PubSubnet1
+
+  # Public Subnet2 Association
+  PubSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: 
+        Ref: PublicRouteTable
+      SubnetId: 
+        Ref: PubSubnet2
+
+  # Private Route Table
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: 
+        Ref: VPC
+
+  # Private Subnet1 Association
+  PrivSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: PrivateRouteTable
+      SubnetId: 
+        Ref: PrivSubnet1
+
+  # Private Subnet2 Association
+  PrivSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: 
+        Ref: PrivateRouteTable
+      SubnetId: 
+        Ref: PrivSubnet2
+
+# Outputs
+Outputs:
+  VPCId:
+    Description: "VPC ID"
+    Value: !Ref "VPC"
+    Export:
+      Name: VPCID
+  PubSubnet1Id:
+    Description: "Public Subnet1 ID"
+    Value: !Ref "PubSubnet1"
+    Export:
+      Name: PubSubnet1
