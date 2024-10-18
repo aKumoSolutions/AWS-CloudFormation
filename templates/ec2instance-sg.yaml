@@ -1,0 +1,179 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "This stack deploys Security Group and EC2 Instance"
+
+### Parameters Section 
+Parameters:
+
+  SGName:
+    Type: String
+    Default: ""
+    Description: "Security Group Name"
+
+  SGDescription:
+    Type: String
+    Default: ""
+    Description: "Security Group Description"
+  
+  SGIngressRDPCIDR:
+    Type: String
+    Default: ""
+    Description: "Security Group Ingress CIDR for RDP"
+  
+  VPCID:
+    Type: String
+    Default: ""
+    Description: "Security Group VPC ID"
+
+  EC2AMIID:
+    Type: String
+    Default: ""
+    Description: "EC2 Instance AMI ID "
+
+  EC2Type:
+    Type: String
+    Default: "t2.micro"
+    Description: "EC2 Instance Type"
+  
+  SubnetID:
+    Type: String
+    Default: ""
+    Description: "EC2 Instance Subnet ID"
+
+  EC2KeyName:
+    Type: String
+    Default: ""
+    Description: "EC2 Instance SSH/RDP Key Name"
+
+  EC2Name:
+    Type: String
+    Default: ""
+    Description: "EC2 Instance Name"
+  
+  EC2RootVolumeSize:
+    Type: Number
+    Default: 50
+    MinValue: 8
+    MaxValue: 1024
+    Description: "EC2 Instancee Root volume size in GB (between 8 and 1024 GB)"
+
+  BUTag:
+    Type: String
+    Default: ""
+    Description: "Enter BU Tag"
+  
+  EnvTag:
+    Type: String
+    Default: ""
+    Description: "Enter Environment Tag"
+
+  OwnerTag:
+    Type: String
+    Default: ""
+    Description: "Enter Resource Owner Name"
+  
+  OwnerContactTag:
+    Type: String
+    Default: ""
+    Description: "Enter Resource Owner Email"
+  
+  ManagedByTag:
+    Type: String
+    Default: "CloudFormation"
+    Description: "Resource ManagedBy Tag"
+
+### Resources Section 
+Resources:
+
+  # Security Group Resource
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription:
+        Ref: SGDescription
+      GroupName:
+        Ref: SGName
+      VpcId:
+        Ref: VPCID
+      
+      ## RDP Ingress Rule ###
+      SecurityGroupIngress: 
+      - CidrIp:
+          Ref: SGIngressRDPCIDR
+        FromPort: 3389
+        ToPort: 3389
+        IpProtocol: "tcp"
+        Description: "RDP from CIDR"
+      
+      Tags:
+      - Key: "Name"
+        Value:
+          Ref: SGName
+      - Key: "BU"
+        Value:
+          Ref: BUTag
+      - Key: "Environment"
+        Value:
+          Ref: EnvTag
+      - Key: "Owner"
+        Value:
+          Ref: OwnerTag
+      - Key: "OwnerContact"
+        Value:
+          Ref: OwnerContactTag
+      - Key: "ManagedBy"
+        Value:
+          Ref: ManagedByTag
+
+  # EC2 Instance Resource
+  Ec2Instance:
+    Type: AWS::EC2::Instance
+    DependsOn: SecurityGroup
+    Properties:
+      ImageId:
+        Ref: EC2AMIID
+      InstanceType:
+        Ref: EC2Type
+      SubnetId: 
+        Ref: SubnetID
+      SecurityGroupIds:
+      - Ref: SecurityGroup
+      KeyName: 
+        Ref: EC2KeyName
+      BlockDeviceMappings:
+        - DeviceName: "/dev/xvda"  # Root volume device name
+          Ebs:
+            VolumeSize:
+              Ref: EC2RootVolumeSize
+            VolumeType: gp3         
+            DeleteOnTermination: true
+      Tags:
+      - Key: "Name"
+        Value:
+          Ref: EC2Name
+      - Key: "BU"
+        Value:
+          Ref: BUTag
+      - Key: "Environment"
+        Value:
+          Ref: EnvTag
+      - Key: "Owner"
+        Value:
+          Ref: OwnerTag
+      - Key: "OwnerContact"
+        Value:
+          Ref: OwnerContactTag
+      - Key: "ManagedBy"
+        Value:
+          Ref: ManagedByTag
+
+### Outputs Section 
+Outputs:
+  SecurityGroupId:
+    Description: "Security Group ID"
+    Value: 
+      Ref: SecurityGroup
+
+  EC2InstanceId:
+    Description: "EC2 Instance ID"
+    Value: 
+      Ref: Ec2Instance
